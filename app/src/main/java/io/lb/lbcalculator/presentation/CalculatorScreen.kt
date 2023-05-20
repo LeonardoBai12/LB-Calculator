@@ -1,8 +1,11 @@
 package io.lb.lbcalculator.presentation
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -20,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.lb.lbcalculator.util.components.DefaultButton
 import io.lb.lbcalculator.util.enums.AutoSizeText
-import io.lb.lbcalculator.util.enums.CalculatorButton
+import io.lb.lbcalculator.domain.model.CalculatorButton
 
 @ExperimentalMaterial3Api
 @Composable
@@ -37,18 +40,23 @@ fun CategoryScreen() {
                 .fillMaxSize()
                 .padding(padding)
                 .padding(horizontal = 8.dp),
-            horizontalAlignment = Alignment.End,
             verticalArrangement = Arrangement.Center
         ) {
-            AutoSizeText(
-                modifier = Modifier.padding(
-                    vertical = 8.dp,
-                    horizontal = 16.dp
-                ),
-                text = operation.value,
-                textStyle = TextStyle(fontSize = 72.sp)
-            )
-            
+            Box(
+                modifier = Modifier.height(100.dp)
+                    .fillMaxWidth()
+                    .padding(
+                        vertical = 8.dp,
+                        horizontal = 12.dp
+                    ),
+                contentAlignment = Alignment.BottomEnd,
+            ) {
+                AutoSizeText(
+                    text = operation.value,
+                    textStyle = TextStyle(fontSize = 72.sp)
+                )
+            }
+
             LazyVerticalGrid(columns = GridCells.Fixed(4)) {
                 val buttons = CalculatorButton.values()
 

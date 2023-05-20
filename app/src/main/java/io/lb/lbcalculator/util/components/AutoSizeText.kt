@@ -20,6 +20,7 @@ fun AutoSizeText(
     val readyToDraw = remember {
         mutableStateOf(false)
     }
+    val originalStyle = textStyle.copy()
 
     Text(
         text = text,
@@ -31,6 +32,9 @@ fun AutoSizeText(
         style = scaledTextStyle.value,
         softWrap = false,
         onTextLayout = {
+            if (text == "0")
+                scaledTextStyle.value = originalStyle
+
             if (it.didOverflowWidth) {
                 scaledTextStyle.value =
                     scaledTextStyle.value.copy(

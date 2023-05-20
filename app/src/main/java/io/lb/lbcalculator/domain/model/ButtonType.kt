@@ -1,4 +1,4 @@
-package io.lb.lbcalculator.util.enums
+package io.lb.lbcalculator.domain.model
 
 enum class ButtonType {
     CONVERSION,

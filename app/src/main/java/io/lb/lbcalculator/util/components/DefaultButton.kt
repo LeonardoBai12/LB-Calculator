@@ -12,8 +12,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.lb.lbcalculator.util.enums.ButtonType
-import io.lb.lbcalculator.util.enums.CalculatorButton
+import io.lb.lbcalculator.domain.model.ButtonType
+import io.lb.lbcalculator.domain.model.CalculatorButton
 
 @Composable
 fun DefaultButton(
