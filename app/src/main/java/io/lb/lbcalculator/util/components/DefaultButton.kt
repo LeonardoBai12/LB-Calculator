@@ -18,7 +18,6 @@ import io.lb.lbcalculator.domain.model.CalculatorButton
 @Composable
 fun DefaultButton(
     button: CalculatorButton,
-    operation: MutableState<String>,
     onClick: () -> Unit
 ) {
     Button(

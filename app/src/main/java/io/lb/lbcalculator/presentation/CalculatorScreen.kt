@@ -31,9 +31,7 @@ import io.lb.lbcalculator.domain.model.CalculatorButton
 @ExperimentalMaterial3Api
 @Composable
 fun CategoryScreen(viewModel: CalculatorViewModel = hiltViewModel()) {
-    val typedNumber = remember {
-        mutableStateOf(CalculatorButton.ZERO.text)
-    }
+    val state = viewModel.state.value
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -49,13 +47,13 @@ fun CategoryScreen(viewModel: CalculatorViewModel = hiltViewModel()) {
                 modifier = Modifier
                     .height(100.dp)
                     .fillMaxWidth()
-                    .padding(bottom = 8.dp)
+                    .padding(bottom = 2.dp)
                     .padding(horizontal = 12.dp),
                 contentAlignment = Alignment.BottomEnd,
             ) {
                 AutoSizeText(
-                    text = typedNumber.value,
-                    textStyle = TextStyle(fontSize = 72.sp)
+                    text = state.data.typedNumber,
+                    textStyle = TextStyle(fontSize = 72.sp),
                 )
             }
 
@@ -63,73 +61,25 @@ fun CategoryScreen(viewModel: CalculatorViewModel = hiltViewModel()) {
                 val buttons = CalculatorButton.values()
 
                 items(buttons.copyOfRange(0, 16)) {
-                    DefaultButton(
-                        button = it,
-                        operation = typedNumber
-                    ) {
-                        onClickDefaultButton(
-                            button = it,
-                            typedNumber = typedNumber,
-                            viewModel = viewModel
-                        )
+                    DefaultButton(button = it) {
+                        viewModel.doCalculatorAction(button = it)
                     }
                 }
 
                 item(span = { GridItemSpan(2) }) {
                     val it = buttons[16]
 
-                    DefaultButton(
-                        button = it,
-                        operation = typedNumber
-                    ) {
-                        onClickDefaultButton(
-                            button = it,
-                            typedNumber = typedNumber,
-                            viewModel = viewModel
-                        )
+                    DefaultButton(button = it) {
+                        viewModel.doCalculatorAction(button = it)
                     }
                 }
 
                 items(buttons.copyOfRange(17, 19)) {
-                    DefaultButton(
-                        button = it,
-                        operation = typedNumber
-                    ) {
-                        onClickDefaultButton(
-                            button = it,
-                            typedNumber = typedNumber,
-                            viewModel = viewModel
-                        )
+                    DefaultButton(button = it) {
+                        viewModel.doCalculatorAction(button = it)
                     }
                 }
             }
-        }
-    }
-}
-
-fun onClickDefaultButton(
-    button: CalculatorButton,
-    typedNumber: MutableState<String>,
-    viewModel: CalculatorViewModel
-) {
-    when (button.buttonType) {
-        ButtonType.NUMBER -> {
-            typedNumber.value = viewModel.onClickNumberButton(
-                typedString = typedNumber.value,
-                button = button
-            )
-        }
-        ButtonType.OPERATION -> {
-            typedNumber.value = viewModel.onClickOperationButton(
-                typedString = typedNumber.value,
-                button = button
-            )
-        }
-        ButtonType.CONVERSION -> {
-            typedNumber.value = viewModel.onClickConversionButton(
-                typedString = typedNumber.value,
-                button = button
-            )
         }
     }
 }

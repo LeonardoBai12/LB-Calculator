@@ -1,7 +1,10 @@
 package io.lb.lbcalculator.presentation
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.lb.lbcalculator.domain.model.ButtonType
 import io.lb.lbcalculator.domain.model.CalculatorButton
 import io.lb.lbcalculator.domain.use_cases.CalculatorUseCases
 import javax.inject.Inject
@@ -10,18 +13,28 @@ import javax.inject.Inject
 class CalculatorViewModel @Inject constructor(
     private val useCases: CalculatorUseCases
 ) : ViewModel() {
-    fun onClickNumberButton(
-        typedString: String,
-        button: CalculatorButton
-    ) = useCases.numberUseCase(typedString, button)
+    private val _state = mutableStateOf(CalculatorState())
+    val state: State<CalculatorState> = _state
 
-    fun onClickOperationButton(
-        typedString: String,
-        button: CalculatorButton
-    ) = useCases.operationUseCase(typedString, button)
+    fun doCalculatorAction(button: CalculatorButton) {
+        val data = state.value.data
 
-    fun onClickConversionButton(
-        typedString: String,
-        button: CalculatorButton
-    ) = useCases.conversionUseCase(typedString, button)
+        _state.value = when (button.buttonType) {
+            ButtonType.NUMBER -> {
+                state.value.copy(
+                    data = useCases.numberUseCase(data, button)
+                )
+            }
+            ButtonType.OPERATION -> {
+                state.value.copy(
+                    data = useCases.operationUseCase(data, button)
+                )
+            }
+            ButtonType.CONVERSION -> {
+                state.value.copy(
+                    data = useCases.conversionUseCase(data, button)
+                )
+            }
+        }
+    }
 }
