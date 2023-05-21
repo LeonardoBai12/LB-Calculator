@@ -14,5 +14,7 @@ class ConversionUseCase(
         CalculatorButton.AC -> repository.reset()
         CalculatorButton.PLUS_MINUS -> repository.invert(data)
         else -> repository.percentage(data)
+    }.apply {
+        previousButton = button
     }
 }

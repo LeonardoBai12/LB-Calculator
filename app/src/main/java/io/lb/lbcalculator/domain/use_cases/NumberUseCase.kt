@@ -10,5 +10,7 @@ class NumberUseCase(
     operator fun invoke(
         data: CalculatorData,
         button: CalculatorButton
-    ) = repository.concatNumber(data, button)
+    ) = repository.concatNumber(data, button).apply {
+        previousButton = button
+    }
 }
