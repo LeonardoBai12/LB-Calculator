@@ -10,7 +10,5 @@ class OperationUseCase(
     operator fun invoke(
         data: CalculatorData,
         button: CalculatorButton
-    ) = repository.calculate(data, button).apply {
-        lastOperation = button
-    }
+    ) = repository.calculate(data, button)
 }

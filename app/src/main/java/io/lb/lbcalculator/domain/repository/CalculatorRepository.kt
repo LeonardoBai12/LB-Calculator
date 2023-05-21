@@ -16,5 +16,5 @@ interface CalculatorRepository {
     fun invert(
         data: CalculatorData,
     ): CalculatorData
-    fun reset(): CalculatorData
+    fun clear(): CalculatorData
 }

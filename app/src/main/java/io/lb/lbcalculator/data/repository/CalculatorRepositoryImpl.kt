@@ -17,8 +17,9 @@ class CalculatorRepositoryImpl : CalculatorRepository {
 
         if (isComma && button.text in data.typedNumber)
             return data.copy()
-        else if (!isComma && data.typedNumber == CalculatorButton.ZERO.text)
-            typedNumber = ""
+        else if (typedNumber == "NaN" ||
+            (!isComma && data.typedNumber == CalculatorButton.ZERO.text)
+        ) typedNumber = ""
 
         return data.copy(
             typedNumber = "${typedNumber}${button.text}"
@@ -29,11 +30,61 @@ class CalculatorRepositoryImpl : CalculatorRepository {
         data: CalculatorData,
         button: CalculatorButton
     ): CalculatorData {
+        val typedNumber = data.typedNumber.toFormattedDouble()
+        val previousResult = data.previousResult
+        val lastOperation = data.lastOperation
+
+        if (button == CalculatorButton.EQUALS) {
+            lastOperation?.let {
+                val result = when (it) {
+                    CalculatorButton.PLUS -> previousResult + typedNumber
+                    CalculatorButton.MINUS -> previousResult - typedNumber
+                    CalculatorButton.MULTIPLY -> previousResult * typedNumber
+                    CalculatorButton.DIVISION ->
+                        if (typedNumber != 0.0)
+                            previousResult / typedNumber
+                        else Double.NaN
+
+                    else -> typedNumber
+                }
+                return data.copy(
+                    typedNumber = result.toFormattedString(),
+                    previousResult = 0.0,
+                )
+            }
+        } else if (
+            (button == CalculatorButton.PLUS ||
+                    button == CalculatorButton.MINUS ||
+                    button == CalculatorButton.MULTIPLY ||
+                    button == CalculatorButton.DIVISION) &&
+            data.typedNumber.isNotBlank()
+        ) {
+            return data.copy(
+                typedNumber = CalculatorButton.ZERO.text,
+                previousResult = typedNumber,
+                lastOperation = button
+            )
+        }
+
         return data
     }
 
     override fun percentage(data: CalculatorData): CalculatorData {
-        return data
+        val typedNumber = data.typedNumber.toFormattedDouble()
+        val previousResult = data.previousResult
+
+        return data.lastOperation?.let {
+            val result = previousResult * typedNumber / 100
+
+            calculate(
+                data.copy(
+                    typedNumber = result.toFormattedString()
+                ),
+                CalculatorButton.EQUALS
+            )
+        } ?: data.copy(
+            typedNumber = (typedNumber / 100).toFormattedString()
+        )
     }
 
     override fun invert(data: CalculatorData): CalculatorData {
@@ -46,5 +97,5 @@ class CalculatorRepositoryImpl : CalculatorRepository {
         )
     }
 
-    override fun reset() = CalculatorData()
+    override fun clear() = CalculatorData()
 }
