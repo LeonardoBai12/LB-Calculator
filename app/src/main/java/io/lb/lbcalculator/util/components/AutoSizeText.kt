@@ -7,6 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.text.TextStyle
+import io.lb.lbcalculator.domain.model.CalculatorButton
 
 @Composable
 fun AutoSizeText(
@@ -33,10 +34,7 @@ fun AutoSizeText(
         softWrap = false,
         onTextLayout = {
             scaledTextStyle.apply {
-                if (text.length == 20)
-                    return@Text
-
-                if (text == "0")
+                if (text == CalculatorButton.ZERO.text)
                     value = originalStyle
 
                 if (it.didOverflowWidth) {

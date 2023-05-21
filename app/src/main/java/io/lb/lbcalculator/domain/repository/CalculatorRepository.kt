@@ -1,11 +1,20 @@
 package io.lb.lbcalculator.domain.repository
 
 import io.lb.lbcalculator.domain.model.CalculatorButton
+import io.lb.lbcalculator.domain.model.CalculatorData
 
 interface CalculatorRepository {
-    fun concatNumber(typedNumber: String, button: CalculatorButton): String
-    fun calculate(typedNumber: String, button: CalculatorButton): String
-    fun percentage(typedNumber: String):String
-    fun invert(typedNumber: String): String
-    fun reset(): String
+    fun concatNumber(
+        data: CalculatorData,
+        button: CalculatorButton
+    ): CalculatorData
+    fun calculate(
+        data: CalculatorData,
+        button: CalculatorButton
+    ): CalculatorData
+    fun percentage(data: CalculatorData): CalculatorData
+    fun invert(
+        data: CalculatorData,
+    ): CalculatorData
+    fun reset(): CalculatorData
 }

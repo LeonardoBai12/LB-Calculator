@@ -1,25 +1,33 @@
 package io.lb.lbcalculator.data.repository
 
 import io.lb.lbcalculator.domain.model.CalculatorButton
+import io.lb.lbcalculator.domain.model.CalculatorData
 import io.lb.lbcalculator.domain.repository.CalculatorRepository
 
 class CalculatorRepositoryImpl : CalculatorRepository {
     override fun concatNumber(
-        typedNumber: String,
+        data: CalculatorData,
         button: CalculatorButton
-    ) = "$typedNumber${button.text}"
-
-    override fun calculate(typedNumber: String, button: CalculatorButton): String {
-        return "Not yet implemented"
+    ): CalculatorData {
+        return data.copy(
+            typedNumber = "${data.typedNumber}${button.text}"
+        )
     }
 
-    override fun percentage(typedNumber: String): String {
-        return "Not yet implemented"
+    override fun calculate(
+        data: CalculatorData,
+        button: CalculatorButton
+    ): CalculatorData {
+        return data
     }
 
-    override fun invert(typedNumber: String): String {
-        return "Not yet implemented"
+    override fun percentage(data: CalculatorData): CalculatorData {
+        return data
     }
 
-    override fun reset() = CalculatorButton.ZERO.text
+    override fun invert(data: CalculatorData): CalculatorData {
+        return data
+    }
+
+    override fun reset() = CalculatorData()
 }
