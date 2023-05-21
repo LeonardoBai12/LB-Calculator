@@ -17,8 +17,9 @@ import io.lb.lbcalculator.domain.model.CalculatorButton
 
 @Composable
 fun DefaultButton(
-    calculatorButton: CalculatorButton,
+    button: CalculatorButton,
     operation: MutableState<String>,
+    onClick: () -> Unit
 ) {
     Button(
         modifier = Modifier
@@ -26,7 +27,7 @@ fun DefaultButton(
             .height(82.dp),
         shape = RoundedCornerShape(24.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = when (calculatorButton.buttonType) {
+            containerColor = when (button.buttonType) {
                 ButtonType.NUMBER -> MaterialTheme.colorScheme.primary
                 ButtonType.CONVERSION -> MaterialTheme.colorScheme.secondary
                 else -> MaterialTheme.colorScheme.tertiary
@@ -34,17 +35,11 @@ fun DefaultButton(
             contentColor = MaterialTheme.colorScheme.onPrimary
         ),
         onClick = {
-            when (calculatorButton.buttonType) {
-                ButtonType.NUMBER -> operation.value += calculatorButton.text
-                ButtonType.OPERATION -> {
-
-                }
-                ButtonType.CONVERSION -> operation.value = "0"
-            }
+            onClick.invoke()
         }
     ) {
         Text(
-            text = calculatorButton.text,
+            text = button.text,
             fontSize = 24.sp,
         )
     }
