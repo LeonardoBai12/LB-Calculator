@@ -32,17 +32,21 @@ fun AutoSizeText(
         style = scaledTextStyle.value,
         softWrap = false,
         onTextLayout = {
-            if (text == "0")
-                scaledTextStyle.value = originalStyle
+            scaledTextStyle.apply {
+                if (text.length == 20)
+                    return@Text
 
-            if (it.didOverflowWidth) {
-                scaledTextStyle.value =
-                    scaledTextStyle.value.copy(
-                        fontSize = scaledTextStyle.value.fontSize *
+                if (text == "0")
+                    value = originalStyle
+
+                if (it.didOverflowWidth) {
+                    value = value.copy(
+                        fontSize = value.fontSize *
                                 it.size.width / it.multiParagraph.width
                     )
-            } else {
-                readyToDraw.value = true
+                } else {
+                    readyToDraw.value = true
+                }
             }
         }
     )
