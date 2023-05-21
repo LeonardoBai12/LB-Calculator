@@ -11,6 +11,6 @@ class OperationUseCase(
         data: CalculatorData,
         button: CalculatorButton
     ) = repository.calculate(data, button).apply {
-        previousButton = button
+        lastOperation = button
     }
 }
