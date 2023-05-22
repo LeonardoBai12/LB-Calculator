@@ -18,6 +18,8 @@ class CalculatorRepositoryImpl : CalculatorRepository {
 
         if (isComma && button.text in data.typedNumber)
             return data.copy()
+        else if (isComma && isEqualsLatter)
+            typedNumber = "0"
         else if (typedNumber == "NaN" || isEqualsLatter ||
             (!isComma && data.typedNumber == CalculatorButton.ZERO.text)
         ) typedNumber = ""

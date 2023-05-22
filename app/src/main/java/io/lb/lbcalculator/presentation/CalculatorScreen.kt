@@ -14,20 +14,26 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import io.lb.lbcalculator.util.components.DefaultButton
 import io.lb.lbcalculator.util.components.AutoSizeText
 import io.lb.lbcalculator.domain.model.CalculatorButton
+import io.lb.lbcalculator.util.components.CalculatorDefaultButton
+import io.lb.lbcalculator.util.components.ClearButton
 
 @ExperimentalMaterial3Api
 @Composable
 fun CategoryScreen(viewModel: CalculatorViewModel = hiltViewModel()) {
     val state = viewModel.state.value
+    val isCalculating = remember {
+        mutableStateOf(false)
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -57,21 +63,31 @@ fun CategoryScreen(viewModel: CalculatorViewModel = hiltViewModel()) {
                 val buttons = CalculatorButton.values()
 
                 items(buttons.copyOfRange(0, 16)) {
-                    DefaultButton(button = it) {
-                        viewModel.doCalculatorAction(button = it)
+                    if (it == CalculatorButton.AC) {
+                        ClearButton(isCalculating = isCalculating.value) {
+                            isCalculating.value = false
+                            viewModel.doCalculatorAction(button = it)
+                        }
+                    } else {
+                        CalculatorDefaultButton(button = it) {
+                            isCalculating.value = true
+                            viewModel.doCalculatorAction(button = it)
+                        }
                     }
                 }
 
                 item(span = { GridItemSpan(2) }) {
                     val it = buttons[16]
 
-                    DefaultButton(button = it) {
+                    CalculatorDefaultButton(button = it) {
+                        isCalculating.value = true
                         viewModel.doCalculatorAction(button = it)
                     }
                 }
 
                 items(buttons.copyOfRange(17, 19)) {
-                    DefaultButton(button = it) {
+                    CalculatorDefaultButton(button = it) {
+                        isCalculating.value = true
                         viewModel.doCalculatorAction(button = it)
                     }
                 }
