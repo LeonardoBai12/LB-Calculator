@@ -50,6 +50,7 @@ class CalculatorRepositoryImpl : CalculatorRepository {
                 return data.copy(
                     typedNumber = result.toFormattedString(),
                     previousResult = 0.0,
+                    lastOperation = button
                 )
             }
         } else if (
@@ -73,7 +74,9 @@ class CalculatorRepositoryImpl : CalculatorRepository {
         val typedNumber = data.typedNumber.toFormattedDouble()
         val previousResult = data.previousResult
 
-        return data.lastOperation?.let {
+        return data.lastOperation?.takeIf {
+            it != CalculatorButton.EQUALS
+        }?.let {
             val result = previousResult * typedNumber / 100
 
             calculate(
