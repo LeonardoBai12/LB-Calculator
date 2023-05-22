@@ -13,16 +13,20 @@ class CalculatorRepositoryImpl : CalculatorRepository {
         button: CalculatorButton
     ): CalculatorData {
         val isComma = button == CalculatorButton.COMMA
+        val isEqualsLatter = data.lastOperation == CalculatorButton.EQUALS
         var typedNumber = data.typedNumber
 
         if (isComma && button.text in data.typedNumber)
             return data.copy()
-        else if (typedNumber == "NaN" ||
+        else if (typedNumber == "NaN" || isEqualsLatter ||
             (!isComma && data.typedNumber == CalculatorButton.ZERO.text)
         ) typedNumber = ""
 
         return data.copy(
-            typedNumber = "${typedNumber}${button.text}"
+            typedNumber = "${typedNumber}${button.text}",
+            lastOperation = if (isEqualsLatter)
+                null
+            else data.lastOperation
         )
     }
 
