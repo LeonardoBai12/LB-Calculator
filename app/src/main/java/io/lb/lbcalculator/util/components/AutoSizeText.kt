@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
-import io.lb.lbcalculator.domain.model.CalculatorButton
 
 private const val MAX_DIGITS = 7
 

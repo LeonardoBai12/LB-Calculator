@@ -24,8 +24,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import io.lb.lbcalculator.util.components.AutoSizeText
 import io.lb.lbcalculator.domain.model.CalculatorButton
+import io.lb.lbcalculator.util.components.AutoSizeText
 import io.lb.lbcalculator.util.components.CalculatorDefaultButton
 import io.lb.lbcalculator.util.components.ClearButton
 import io.lb.lbcalculator.util.extensions.emptyIfEquals

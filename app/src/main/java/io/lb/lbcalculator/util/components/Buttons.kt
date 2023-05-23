@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.lb.lbcalculator.domain.model.ButtonType
 import io.lb.lbcalculator.domain.model.CalculatorButton
-import io.lb.lbcalculator.domain.model.CalculatorData
 
 @Composable
 fun ClearButton(
@@ -38,15 +37,15 @@ fun CalculatorDefaultButton(
     button: CalculatorButton,
     onClick: () -> Unit
 ) {
-   DefaultButton(
-       button = button,
-       onClick = onClick,
-   ) {
-       Text(
-           text = button.text,
-           fontSize = 24.sp,
-       )
-   }
+    DefaultButton(
+        button = button,
+        onClick = onClick,
+    ) {
+        Text(
+            text = button.text,
+            fontSize = 24.sp,
+        )
+    }
 }
 
 @Composable

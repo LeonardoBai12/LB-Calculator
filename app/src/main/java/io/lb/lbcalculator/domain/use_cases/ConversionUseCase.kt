@@ -10,7 +10,7 @@ class ConversionUseCase(
     operator fun invoke(
         data: CalculatorData,
         button: CalculatorButton
-    ) = when(button) {
+    ) = when (button) {
         CalculatorButton.AC -> repository.clear()
         CalculatorButton.PLUS_MINUS -> repository.invert(data)
         else -> repository.percentage(data)
