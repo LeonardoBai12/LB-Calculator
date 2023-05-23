@@ -4,6 +4,7 @@ import io.lb.lbcalculator.domain.model.CalculatorButton
 import io.lb.lbcalculator.domain.model.CalculatorData
 import io.lb.lbcalculator.domain.repository.CalculatorRepository
 import io.lb.lbcalculator.util.extensions.invert
+import io.lb.lbcalculator.util.extensions.isOperation
 import io.lb.lbcalculator.util.extensions.toFormattedDouble
 import io.lb.lbcalculator.util.extensions.toFormattedString
 
@@ -71,12 +72,7 @@ class CalculatorRepositoryImpl : CalculatorRepository {
                     lastEqualsOperation = lastEqualsOperation
                 )
             }
-        } else if (
-            (button == CalculatorButton.PLUS ||
-                    button == CalculatorButton.MINUS ||
-                    button == CalculatorButton.MULTIPLY ||
-                    button == CalculatorButton.DIVISION)
-        ) {
+        } else if (button.isOperation()) {
             return data.lastOperation?.takeIf {
                 data.previousResult != 0.0
             }?.let {
@@ -132,16 +128,16 @@ class CalculatorRepositoryImpl : CalculatorRepository {
         typedNumber: Double,
         previousResult: Double,
     ) = when (operation) {
-            CalculatorButton.PLUS -> previousResult + typedNumber
-            CalculatorButton.MINUS -> previousResult - typedNumber
-            CalculatorButton.MULTIPLY -> previousResult * typedNumber
-            CalculatorButton.DIVISION ->
-                if (typedNumber != 0.0)
-                    previousResult / typedNumber
-                else Double.NaN
+        CalculatorButton.PLUS -> previousResult + typedNumber
+        CalculatorButton.MINUS -> previousResult - typedNumber
+        CalculatorButton.MULTIPLY -> previousResult * typedNumber
+        CalculatorButton.DIVISION ->
+            if (typedNumber != 0.0)
+                previousResult / typedNumber
+            else Double.NaN
 
-            else -> typedNumber
-        }
+        else -> typedNumber
+    }
 
     override fun invert(data: CalculatorData): CalculatorData {
         val invertedNumber = data.typedNumber

@@ -1,7 +1,7 @@
 package io.lb.lbcalculator.domain.model
 
 enum class CalculatorButton(
-    val text :String,
+    val text: String,
     val buttonType: ButtonType
 ) {
     AC("AC", ButtonType.CONVERSION),
