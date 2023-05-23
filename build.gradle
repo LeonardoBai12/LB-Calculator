@@ -2,6 +2,7 @@ buildscript {
     ext {
         compose_version = '1.5.0-alpha03'
         hilt_version = '2.44'
+        ktlintVersion = '11.1.0'
         kotlin_version = '1.8.10'
     }
 
@@ -12,6 +13,7 @@ buildscript {
 
     dependencies {
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:$ktlintVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -24,4 +26,8 @@ plugins {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+subprojects {
+    apply from: "$project.rootDir/ktlint.gradle"
 }
