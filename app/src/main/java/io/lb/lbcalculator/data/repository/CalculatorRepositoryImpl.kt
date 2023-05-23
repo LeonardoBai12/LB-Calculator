@@ -42,17 +42,7 @@ class CalculatorRepositoryImpl : CalculatorRepository {
 
         if (button == CalculatorButton.EQUALS) {
             lastOperation?.let {
-                val result = when (it) {
-                    CalculatorButton.PLUS -> previousResult + typedNumber
-                    CalculatorButton.MINUS -> previousResult - typedNumber
-                    CalculatorButton.MULTIPLY -> previousResult * typedNumber
-                    CalculatorButton.DIVISION ->
-                        if (typedNumber != 0.0)
-                            previousResult / typedNumber
-                        else Double.NaN
-
-                    else -> typedNumber
-                }
+                val result = resultAccordingToOperation(it, typedNumber, previousResult)
                 return data.copy(
                     typedNumber = result.toFormattedString(),
                     previousResult = 0.0,
@@ -69,6 +59,12 @@ class CalculatorRepositoryImpl : CalculatorRepository {
                 data.previousResult != 0.0
             }?.let {
                 data.copy(
+                    typedNumber = CalculatorButton.ZERO.text,
+                    previousResult = resultAccordingToOperation(
+                        lastOperation!!,
+                        typedNumber,
+                        previousResult
+                    ),
                     lastOperation = button
                 )
             } ?: data.copy(
@@ -100,6 +96,22 @@ class CalculatorRepositoryImpl : CalculatorRepository {
             typedNumber = (typedNumber / 100).toFormattedString()
         )
     }
+
+    private fun resultAccordingToOperation(
+        operation: CalculatorButton,
+        typedNumber: Double,
+        previousResult: Double,
+    ) = when (operation) {
+            CalculatorButton.PLUS -> previousResult + typedNumber
+            CalculatorButton.MINUS -> previousResult - typedNumber
+            CalculatorButton.MULTIPLY -> previousResult * typedNumber
+            CalculatorButton.DIVISION ->
+                if (typedNumber != 0.0)
+                    previousResult / typedNumber
+                else Double.NaN
+
+            else -> typedNumber
+        }
 
     override fun invert(data: CalculatorData): CalculatorData {
         val invertedNumber = data.typedNumber
