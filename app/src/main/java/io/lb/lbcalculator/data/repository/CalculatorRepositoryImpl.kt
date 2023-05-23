@@ -8,7 +8,6 @@ import io.lb.lbcalculator.util.extensions.toFormattedDouble
 import io.lb.lbcalculator.util.extensions.toFormattedString
 
 class CalculatorRepositoryImpl : CalculatorRepository {
-    // Deveria ir repetindo equações conforme for apertando EQUALS
     override fun concatNumber(
         data: CalculatorData,
         button: CalculatorButton
@@ -64,10 +63,15 @@ class CalculatorRepositoryImpl : CalculatorRepository {
             (button == CalculatorButton.PLUS ||
                     button == CalculatorButton.MINUS ||
                     button == CalculatorButton.MULTIPLY ||
-                    button == CalculatorButton.DIVISION) &&
-            data.typedNumber.isNotBlank()
+                    button == CalculatorButton.DIVISION)
         ) {
-            return data.copy(
+            return data.lastOperation?.takeIf {
+                data.previousResult != 0.0
+            }?.let {
+                data.copy(
+                    lastOperation = button
+                )
+            } ?: data.copy(
                 typedNumber = CalculatorButton.ZERO.text,
                 previousResult = typedNumber,
                 lastOperation = button
