@@ -8,6 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import io.lb.lbcalculator.domain.model.CalculatorButton
 
+private const val MAX_DIGITS = 7
+
 @Composable
 fun AutoSizeText(
     text: String,
@@ -26,7 +28,7 @@ fun AutoSizeText(
         softWrap = false,
         onTextLayout = {
             scaledTextStyle.apply {
-                if (text.length <= 7)
+                if (text.length <= MAX_DIGITS)
                     value = originalStyle
 
                 if (!it.didOverflowWidth)
