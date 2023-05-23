@@ -16,10 +16,10 @@ class CalculatorRepositoryImpl : CalculatorRepository {
         val isEqualsLatter = data.lastOperation == CalculatorButton.EQUALS
         var typedNumber = data.typedNumber
 
-        if (isComma && button.text in data.typedNumber)
-            return data.copy()
-        else if (isComma && isEqualsLatter)
+        if (isComma && isEqualsLatter)
             typedNumber = "0"
+        else if (isComma && button.text in data.typedNumber)
+            return data.copy()
         else if (typedNumber == "NaN" || isEqualsLatter ||
             (!isComma && data.typedNumber == CalculatorButton.ZERO.text)
         ) typedNumber = ""
@@ -80,13 +80,17 @@ class CalculatorRepositoryImpl : CalculatorRepository {
             return data.lastOperation?.takeIf {
                 data.previousResult != 0.0
             }?.let {
+                val result = resultAccordingToOperation(
+                    lastOperation!!,
+                    typedNumber,
+                    previousResult
+                )
+
                 data.copy(
                     typedNumber = CalculatorButton.ZERO.text,
-                    previousResult = resultAccordingToOperation(
-                        lastOperation!!,
-                        typedNumber,
-                        previousResult
-                    ),
+                    previousResult = result.takeIf {
+                        it != 0.0 && !it.isNaN()
+                    } ?: previousResult,
                     lastOperation = button,
                     lastEqualsTypedNumber = 0.0,
                     lastEqualsOperation = null
