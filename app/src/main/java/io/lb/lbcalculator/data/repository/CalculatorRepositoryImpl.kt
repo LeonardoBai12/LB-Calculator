@@ -43,10 +43,32 @@ class CalculatorRepositoryImpl : CalculatorRepository {
         if (button == CalculatorButton.EQUALS) {
             lastOperation?.let {
                 val result = resultAccordingToOperation(it, typedNumber, previousResult)
+                var lastEqualsTypedNumber = 0.0
+                var lastEqualsOperation: CalculatorButton? = null
+
+                if (lastOperation != CalculatorButton.EQUALS) {
+                    lastEqualsTypedNumber = typedNumber
+                    lastEqualsOperation = lastOperation
+                }
+
+                data.lastEqualsOperation?.let { operation ->
+                    return data.copy(
+                        typedNumber = resultAccordingToOperation(
+                            operation,
+                            data.lastEqualsTypedNumber,
+                            result
+                        ).toFormattedString(),
+                        previousResult = 0.0,
+                        lastOperation = lastOperation,
+                    )
+                }
+
                 return data.copy(
                     typedNumber = result.toFormattedString(),
                     previousResult = 0.0,
-                    lastOperation = button
+                    lastOperation = button,
+                    lastEqualsTypedNumber = lastEqualsTypedNumber,
+                    lastEqualsOperation = lastEqualsOperation
                 )
             }
         } else if (
@@ -65,12 +87,16 @@ class CalculatorRepositoryImpl : CalculatorRepository {
                         typedNumber,
                         previousResult
                     ),
-                    lastOperation = button
+                    lastOperation = button,
+                    lastEqualsTypedNumber = 0.0,
+                    lastEqualsOperation = null
                 )
             } ?: data.copy(
                 typedNumber = CalculatorButton.ZERO.text,
                 previousResult = typedNumber,
-                lastOperation = button
+                lastOperation = button,
+                lastEqualsTypedNumber = 0.0,
+                lastEqualsOperation = null
             )
         }
 
