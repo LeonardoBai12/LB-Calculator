@@ -7,6 +7,9 @@ fun Double.toFormattedString(): String {
     return decimalFormat.format(this).replace(".", ",")
 }
 
+fun Double?.emptyIfZero() =
+    takeIf { it != 0.0 }?.toFormattedString() ?: ""
+
 fun Double.invert() =
     if (this != 0.0) this * -1
     else this

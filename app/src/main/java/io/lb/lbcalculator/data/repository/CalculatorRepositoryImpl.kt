@@ -8,6 +8,7 @@ import io.lb.lbcalculator.util.extensions.toFormattedDouble
 import io.lb.lbcalculator.util.extensions.toFormattedString
 
 class CalculatorRepositoryImpl : CalculatorRepository {
+    // Deveria ir repetindo equações conforme for apertando EQUALS
     override fun concatNumber(
         data: CalculatorData,
         button: CalculatorButton
