@@ -26,12 +26,16 @@ fun AutoSizeText(
         softWrap = false,
         onTextLayout = {
             scaledTextStyle.apply {
-                if (text == CalculatorButton.ZERO.text)
+                if (text.length <= 7)
                     value = originalStyle
 
+                if (!it.didOverflowWidth)
+                    return@Text
+
+                val scaleFactor = it.size.width / it.multiParagraph.width
+
                 value = value.copy(
-                    fontSize = value.copy().fontSize *
-                            it.size.width / it.multiParagraph.width
+                    fontSize = value.copy().fontSize * scaleFactor
                 )
             }
         }
