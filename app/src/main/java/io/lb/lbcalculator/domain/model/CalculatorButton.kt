@@ -27,4 +27,6 @@ enum class CalculatorButton(
     ZERO("0", ButtonType.NUMBER),
     COMMA(",", ButtonType.NUMBER),
     EQUALS("=", ButtonType.OPERATION),
+
+    C("C", ButtonType.CONVERSION),
 }
